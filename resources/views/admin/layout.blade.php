@@ -12,7 +12,7 @@
 
 <body>
     <div class="container">
-        @yield('content')
+    @include('messages') @yield('content')
     </div>
 </body>
 

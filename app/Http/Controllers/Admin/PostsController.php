@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\Post;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -14,7 +15,10 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('admin/posts');
+        $posts = Post::all();
+        return view('admin/posts', [
+            'posts' => $posts,
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin/post');
     }
 
     /**
@@ -35,7 +39,19 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'title' => ['required'],
+            'slug' => ['required'],
+            'content' => ['required'],
+        ]);
+
+        Post::create([
+            'title' => request('title'),
+            'slug' => request('slug'),
+            'content' => request('content'),
+        ]);
+
+        return redirect()->route('posts.index')->with('success', 'Votre post a été publié!');
     }
 
     /**
