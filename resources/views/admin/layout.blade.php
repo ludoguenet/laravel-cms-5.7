@@ -12,6 +12,7 @@
 
 <body>
     <div class="container">
+        <a class="button" href="{{ route('home.index') }}">Retour à l'administration</a>
     @include('messages') @yield('content')
     </div>
 </body>
