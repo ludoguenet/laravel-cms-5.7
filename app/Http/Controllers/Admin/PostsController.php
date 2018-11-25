@@ -15,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->get();
         return view('admin/posts', [
             'posts' => $posts,
         ]);
@@ -43,12 +43,14 @@ class PostsController extends Controller
             'title' => ['required'],
             'slug' => ['required'],
             'content' => ['required'],
+            'published' => ['accepted'],
         ]);
 
         Post::create([
             'title' => request('title'),
             'slug' => request('slug'),
             'content' => request('content'),
+            'published' => request('published'),
         ]);
 
         return redirect()->route('posts.index')->with('success', 'Votre post a été publié!');
@@ -73,7 +75,11 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        return view('admin/edit', [
+            'post' => $post,
+        ]);
     }
 
     /**
@@ -85,7 +91,16 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $post->title = request('title');
+        $post->content = request('content');
+        $post->slug = request('slug');
+        $post->published = request('published');
+
+        $post->save();
+
+        return redirect()->route('home.index')->with('success', 'Votre article a bien été modifiée');
     }
 
     /**
@@ -96,6 +111,10 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return redirect()->route('home.index')->with('success', 'Votre article a été supprimé');
+
     }
 }

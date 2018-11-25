@@ -17,7 +17,8 @@ Route::get('/', function () {
 })->name('homepage');
 
 // Posts
-Route::get('posts', 'PostsController@index')->name('posts');
+Route::get('posts', 'PostsController@index')->name('posts.user.index');
+Route::get('posts/{slug}', 'PostsController@show')->name('posts.user.show');
 
 // Administration
 Route::group(['namespace' => 'Admin'], function () {

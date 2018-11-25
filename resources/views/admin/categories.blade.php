@@ -1,10 +1,10 @@
 @extends('admin/layout') 
 @section('content')
-<h1>Administration des catégories</h1>
-<a class="button button-primary" href="{{ route('categories.create') }}">Créer une catégorie</a>
-<ul>
+<h1 class="mb-3">Administration des catégories</h1>
+<a class="btn btn-primary mb-3" href="{{ route('categories.create') }}">Créer une catégorie</a>
+<ul class="list-group">
     @foreach ($categories as $category)
-    <li><a href="#">{{ $category->name }}</a></li>
+    <li class="list-group-item">{{ $category->name }}</li>
     @endforeach
 </ul>
 @endsection
