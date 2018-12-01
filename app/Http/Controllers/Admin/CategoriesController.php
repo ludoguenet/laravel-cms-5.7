@@ -41,12 +41,11 @@ class CategoriesController extends Controller
     {
         request()->validate([
             'name' => ['required', 'string'],
-            'slug' => ['required', 'string'],
         ]);
 
         Category::create([
             'name' => request('name'),
-            'slug' => request('slug'),
+            'slug' => str_slug(request('name'), '-'),
         ]);
 
         return redirect()->route('categories.index')->with('success', 'La catégorie a été créée');

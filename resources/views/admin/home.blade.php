@@ -5,8 +5,8 @@
     <table class="table table-striped table-sm">
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Aperçu</th>
+                <th>Titre du post</th>
+                <th>Voir</th>
                 <th>Créé le</th>
                 <th>Publié ?</th>
                 <th>Editer</th>
@@ -16,8 +16,8 @@
         <tbody>
             @foreach ($posts as $post)
             <tr>
-                <td>{{ $post->title }}</td>
-                <td>{{ str_limit($post->content, 50, '...') }}</td>
+                <td>{{ str_limit($post->title, 50, '...') }}</td>
+                <td><a href="{{ route('posts.user.show', ['slug' => $post->slug]) }}"><span data-feather="eye"></span></a></td>
                 <td>{{ $post->created_at->format('d M Y') }}</td>
                 <td>
                     @if ($post->published == 'on')
@@ -28,7 +28,7 @@
                 <td>
                     <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST">
                         {{ csrf_field() }} {{ method_field('delete') }}
-                        <button style="border:none; cursor:pointer;" type="submit"><span data-feather='trash'></span></button>
+                        <button style="border:none; cursor:pointer; background: none;" type="submit"><span data-feather='trash'></span></button>
                     </form>
                 </td>
             </tr>

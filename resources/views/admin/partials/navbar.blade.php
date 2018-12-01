@@ -23,7 +23,7 @@
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Gérer mon blog</span>
-            <a class="d-flex align-items-center text-muted" href="#">
+            <a class="d-flex align-items-center text-muted" href="{{ route('posts.create') }}">
               <span data-feather="plus-circle"></span>
             </a>
         </h6>

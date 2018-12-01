@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\Category;
 use App\Models\User\Post;
+use App\Models\User\Tag;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -28,7 +30,12 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin/post');
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('admin/post', [
+            'categories' => $categories,
+            'tags' => $tags,
+        ]);
     }
 
     /**
@@ -41,19 +48,22 @@ class PostsController extends Controller
     {
         request()->validate([
             'title' => ['required'],
-            'slug' => ['required'],
             'content' => ['required'],
-            'published' => ['accepted'],
         ]);
 
-        Post::create([
+        $post = Post::create([
             'title' => request('title'),
-            'slug' => request('slug'),
+            'slug' => str_slug(request('title'), '-'),
             'content' => request('content'),
             'published' => request('published'),
         ]);
 
-        return redirect()->route('posts.index')->with('success', 'Votre post a été publié!');
+        $post->categories()->sync(request('categories'));
+        $post->tags()->sync(request('tags'));
+
+        $post->save();
+
+        return redirect()->route('posts.index')->with('success', 'Votre post a été créé!');
     }
 
     /**
@@ -76,9 +86,13 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
+        $categories = Category::all();
+        $tags = Tag::all();
 
         return view('admin/edit', [
             'post' => $post,
+            'categories' => $categories,
+            'tags' => $tags,
         ]);
     }
 
@@ -93,10 +107,17 @@ class PostsController extends Controller
     {
         $post = Post::findOrFail($id);
 
+        request()->validate([
+            'title' => ['required'],
+            'content' => ['required'],
+        ]);
+
         $post->title = request('title');
         $post->content = request('content');
-        $post->slug = request('slug');
+        $post->slug = str_slug(request('title'));
         $post->published = request('published');
+        $post->categories()->sync(request('categories'));
+        $post->tags()->sync(request('tags'));
 
         $post->save();
 

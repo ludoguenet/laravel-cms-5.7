@@ -41,12 +41,11 @@ class TagsController extends Controller
     {
         request()->validate([
             'name' => ['required', 'string'],
-            'slug' => ['required', 'string'],
         ]);
 
         Tag::create([
             'name' => request('name'),
-            'slug' => request('slug'),
+            'slug' => str_slug(request('name'), '-'),
         ]);
 
         return redirect()->route('tags.index')->with('success', 'Le tag a été créé!');
