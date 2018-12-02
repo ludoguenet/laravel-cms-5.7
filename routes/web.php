@@ -20,6 +20,12 @@ Route::get('/', function () {
 Route::get('posts', 'PostsController@index')->name('posts.user.index');
 Route::get('posts/{slug}', 'PostsController@show')->name('posts.user.show');
 
+// Tags
+Route::get('posts/tag/{tag}', 'PostsController@tag')->name('posts.user.tag');
+
+// Categories
+Route::get('posts/category/{category}', 'PostsController@category')->name('posts.user.category');
+
 // Administration
 Route::group(['namespace' => 'Admin'], function () {
     // Posts

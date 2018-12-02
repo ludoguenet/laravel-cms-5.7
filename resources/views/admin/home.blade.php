@@ -1,5 +1,6 @@
 @extends('admin/layout') 
 @section('content')
+    @include('partials/messages')
 <h3>Mes articles</h3>
 <div class="table-responsive">
     <table class="table table-striped table-sm">

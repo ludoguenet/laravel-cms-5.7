@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User\Category;
 use App\Models\User\Post;
+use App\Models\User\Tag;
 
 class PostsController extends Controller
 {
@@ -13,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('published', 'on')->orderBy('created_at', 'desc')->get();
+        $posts = Post::where('published', 'on')->orderBy('created_at', 'desc')->paginate(6);
 
         return view('posts', [
             'posts' => $posts,
@@ -21,16 +23,42 @@ class PostsController extends Controller
     }
 
     /**
-     * Display a post according the slug sent.
+     * Display a post according to the slug sent.
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Post $slug)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
-
         return view('post', [
-            'post' => $post,
+            'post' => $slug,
+        ]);
+    }
+
+    /**
+     * Display posts according to the tag sent.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tag(Tag $tag)
+    {
+        $posts = $tag->posts();
+
+        return view('posts', [
+            'posts' => $posts,
+        ]);
+    }
+
+    /**
+     * Display posts according to the tag sent.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function category(Category $category)
+    {
+        $posts = $category->posts();
+
+        return view('posts', [
+            'posts' => $posts,
         ]);
     }
 }

@@ -1,19 +1,30 @@
 @extends('admin/layout') 
+@section('extra-css')
+<link rel="stylesheet" href="{{ asset('css/bootstrap-select.css') }}" />
+@endsection
+ 
 @section('content')
 <!-- The above form looks like this -->
-<form method="POST" action="{{ route('posts.store') }}">
+<form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="form-group">
         <label for="title">Titre</label>
-        <input class="form-control" type="text" name="title" placeholder="Votre titre..." id="title" value="{{ old('title') }}">
+        <input class="form-control @if($errors->has('title'))is-invalid @endif" type="text" name="title" placeholder="Votre titre..."
+            id="title" value="{{ old('title') }}">
+        <div class="invalid-feedback">
+            {{ $errors->first('title') }}
+        </div>
     </div>
     <div class="form-group">
         <label for="content">Message</label>
-        <textarea class="form-control" rows="10" name="content" placeholder="Exprimez-vous..." id="content"></textarea>
+        <textarea class="form-control @if($errors->has('content')) is-invalid @endif" rows="10" name="content" id="content"></textarea>
+        <div class="invalid-feedback">
+            {{ $errors->first('content') }}
+        </div>
     </div>
     <div class="form-group">
         <label for="categories">Catégories</label>
-        <select multiple class="form-control" name="categories[]" id="categories">
+        <select class="selectpicker @if($errors->has('categories')) is-invalid @endif" multiple name="categories[]" id="categories">
             @foreach ($categories as $category)
             <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
@@ -21,26 +32,35 @@
     </div>
     <div class="form-group">
         <label for="tags">Tags</label>
-        <select multiple class="form-control" name="tags[]" id="tags">
+        <select multiple class="selectpicker @if($errors->has('tags')) is-invalid @endif" name="tags[]" id="tags">
             @foreach ($tags as $tag)
             <option value="{{ $tag->id }}">{{ $tag->name }}</option>
             @endforeach
         </select>
     </div>
     <div class="form-group">
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="published" id="exampleCheck1" checked>
-            <label class="form-check-label" for="exampleCheck1">Publier le post</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input @if($errors->has('image')) is-invalid @endif" name="image" id="image">
+            <label class="custom-file-label" for="image">Choisir une image</label>
+            <div class="invalid-feedback">{{ $errors->first('image') }}</div>
         </div>
     </div>
-    <input class="btn btn-primary" type="submit" value="Poster mon article">
+    <div class="form-group">
+        <div class="custom-control custom-checkbox mb-3">
+            <input type="checkbox" name="published" class="custom-control-input" id="published">
+            <label class="custom-control-label" for="published">Publier le post ?</label>
+        </div>
+    </div>
+    <input class="btn btn-outline-primary" type="submit" value="Poster mon article">
 </form>
 @endsection
  
 @section('extra-js')
+<script src="{{ asset('js/bootstrap-select.js') }}"></script>
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
 <script>
     tinymce.init({ selector:'textarea' });
+    $('select').selectpicker();
 
 </script>
 @endsection

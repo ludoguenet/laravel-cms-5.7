@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}"> @yield('extra-css')
 </head>
 
 <body>
@@ -21,11 +21,11 @@
         </ul>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-bottom: 3rem;">
         <div class="row">
     @include('admin/partials/navbar')
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    @include('partials/messages') @yield('content')
+                @yield('content')
             </main>
         </div>
     </div>
