@@ -16,7 +16,14 @@
         <input class="form-control form-control-dark w-100" type="text" placeholder="Rechercher un article" aria-label="Search">
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Se déconnecter</a>
+                <a class="nav-link" href="{{ route('admin.logout') }}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                Se déconnecter
+                </a>
+
+                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </li>
         </ul>
     </nav>

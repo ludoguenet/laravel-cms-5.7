@@ -36,4 +36,12 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::resource('admin/tags', 'TagsController');
     // Administration
     Route::resource('admin/home', 'HomeController');
+    // Administration Auth
+    Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('admin.login');
+    Route::post('admin/login', 'Auth\LoginController@login')->name('admin.login');
+    Route::post('admin/logout', 'Auth\LoginController@logout')->name('admin.logout');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

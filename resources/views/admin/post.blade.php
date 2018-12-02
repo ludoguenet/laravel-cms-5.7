@@ -9,7 +9,7 @@
     {{ csrf_field() }}
     <div class="form-group">
         <label for="title">Titre</label>
-        <input class="form-control @if($errors->has('title'))is-invalid @endif" type="text" name="title" placeholder="Votre titre..."
+        <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" placeholder="Votre titre..."
             id="title" value="{{ old('title') }}">
         <div class="invalid-feedback">
             {{ $errors->first('title') }}
@@ -17,14 +17,14 @@
     </div>
     <div class="form-group">
         <label for="content">Message</label>
-        <textarea class="form-control @if($errors->has('content')) is-invalid @endif" rows="10" name="content" id="content"></textarea>
+        <textarea class="form-control {{ $errors->has('content') ? 'is-invalid' : '' }}" rows="7" name="content" id="content"></textarea>
         <div class="invalid-feedback">
             {{ $errors->first('content') }}
         </div>
     </div>
     <div class="form-group">
         <label for="categories">Catégories</label>
-        <select class="selectpicker @if($errors->has('categories')) is-invalid @endif" multiple name="categories[]" id="categories">
+        <select class="selectpicker {{ $errors->has('categories') ? 'is-invalid' : '' }}" multiple name="categories[]" id="categories">
             @foreach ($categories as $category)
             <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
@@ -32,7 +32,7 @@
     </div>
     <div class="form-group">
         <label for="tags">Tags</label>
-        <select multiple class="selectpicker @if($errors->has('tags')) is-invalid @endif" name="tags[]" id="tags">
+        <select multiple class="selectpicker {{ $errors->has('tags') ? 'is-invalid' : '' }}" name="tags[]" id="tags">
             @foreach ($tags as $tag)
             <option value="{{ $tag->id }}">{{ $tag->name }}</option>
             @endforeach
@@ -40,7 +40,7 @@
     </div>
     <div class="form-group">
         <div class="custom-file">
-            <input type="file" class="custom-file-input @if($errors->has('image')) is-invalid @endif" name="image" id="image">
+            <input type="file" class="custom-file-input {{ $errors->has('image') ? 'is-invalid' : '' }}" name="image" id="image">
             <label class="custom-file-label" for="image">Choisir une image</label>
             <div class="invalid-feedback">{{ $errors->first('image') }}</div>
         </div>
